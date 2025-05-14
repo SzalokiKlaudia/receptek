@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Receptek;
 use App\Http\Requests\StoreReceptekRequest;
 use App\Http\Requests\UpdateReceptekRequest;
+use App\Models\Kategoria;
+use Illuminate\Http\Request;
 
 class ReceptekController extends Controller
 {
@@ -13,23 +15,33 @@ class ReceptekController extends Controller
      */
     public function index()
     {
-        //
+        $receptek = response()->json(Receptek::with('kategoria')->get());
+
+        return $receptek;
     }
+
+
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreReceptekRequest $request)
+    public function store(Request $request)
     {
-        //
+        $recept = new Receptek();
+        $recept->fill($request->all());
+        $recept->save();
+
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Receptek $receptek)
+    public function show($id)
     {
-        //
+        $receptek = response()->json(Receptek::with('kategoria')->find($id));
+
+        return $receptek;
     }
 
     /**
@@ -43,8 +55,8 @@ class ReceptekController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Receptek $receptek)
+    public function destroy($id)
     {
-        //
+        Receptek::find($id)->delete();
     }
 }

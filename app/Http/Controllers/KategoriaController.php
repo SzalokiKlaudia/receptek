@@ -13,7 +13,9 @@ class KategoriaController extends Controller
      */
     public function index()
     {
-        //
+        $kategoriak = response()->json(Kategoria::all());
+
+        return $kategoriak;
     }
 
     /**
@@ -27,9 +29,11 @@ class KategoriaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Kategoria $kategoria)
+    public function show($kat_id)
     {
-        //
+        $szurtAdat = response()->json(Kategoria::with('receptek')->find($kat_id));
+
+        return $szurtAdat;
     }
 
     /**
